@@ -11,3 +11,5 @@
 [Day 3: Gear Ratios](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%203:%20Gear%20Ratios/gondolas.py)
 
 [Day 4: Scratchcards](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%204:%20Scratchcards/scratchcard.py)
+
+[Day 5: If You Give A Seed A Fertilizer](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%205:%20If%20You%20Give%20A%20Seed%20A%20Fertilizer/almanac.py)
