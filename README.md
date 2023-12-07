@@ -16,3 +16,4 @@
 
 [Day 6: Wait For It](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%206:%20Wait%20For%20It/boat_races.py)
 
+[Day 7: Camel Cards](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/Day%207:%20Camel%20Cards/poker.py)
