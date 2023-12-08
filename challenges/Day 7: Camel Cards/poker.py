@@ -1,5 +1,5 @@
 from functools import cmp_to_key
-input_path = 'Day 7: Camel Cards/input'
+input_path = 'challenges/Day 7: Camel Cards/input'
 
 is_five = lambda cluster, jokers: 5 in cluster.values() or (5 - jokers in cluster.values()) or jokers == 5
 is_four = lambda cluster, jokers: 4 in cluster.values() or (4 - jokers in cluster.values()) or jokers == 4
