@@ -19,3 +19,5 @@
 [Day 7: Camel Cards](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%207:%20Camel%20Cards/poker.py)
 
 [Day 8: Haunted Wasteland](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%208:%20Haunted%20Wasteland/desert_map.py)
+
+[Day 9: Mirage Maintenance](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%209:%20Mirage%20Maintenance/oasis.py)
