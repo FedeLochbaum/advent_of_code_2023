@@ -21,3 +21,5 @@
 [Day 8: Haunted Wasteland](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%208:%20Haunted%20Wasteland/desert_map.py)
 
 [Day 9: Mirage Maintenance](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%209:%20Mirage%20Maintenance/oasis.py)
+
+[Day 10: Pipe Maze](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2010:%20Pipe%20Maze/loops.py)
