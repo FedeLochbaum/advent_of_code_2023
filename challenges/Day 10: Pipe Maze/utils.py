@@ -7,6 +7,12 @@ neighbors_by_key = {
   '7': lambda r, c: [(r, c - 1), (r + 1, c)],
 }
 
+def grid_from_file(input_path):
+  array = []
+  with open(input_path) as f:
+    for line in f: array.append([elem for elem in line[:-1]])
+  return array
+
 def graph_from_file(input_path):
   graph = {}; r = 0; S = None; cols = 0
   with open(input_path) as f:
