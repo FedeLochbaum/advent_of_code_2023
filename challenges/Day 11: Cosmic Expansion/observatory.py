@@ -1,5 +1,5 @@
 input_path = 'challenges/Day 11: Cosmic Expansion/input'
-from utils import grid_from_file, floyd_warshall, neighbors
+from utils import grid_from_file
 
 def expand_grid(graph):
   empty_rows = [i for i, row in enumerate(graph) if '#' not in row]
@@ -22,35 +22,33 @@ grid = expand_grid(grid_from_file(input_path))
 
 _galaxies = galaxies(grid)
 
-# TODO: Eliminar todos los '.'
-
-def valid_point(point):
-  if point[0] < 0 or point[0] >= len(grid): return False
-  if point[1] < 0 or point[1] >= len(grid[0]): return False
-  return True
+# def valid_point(point):
+#   if point[0] < 0 or point[0] >= len(grid): return False
+#   if point[1] < 0 or point[1] >= len(grid[0]): return False
+#   return True
     
-def compute_mappers(grid): 
-  indexes = {}; _neighbors = {}; current = 0
-  for r in range(len(grid)):
-    for c in range(len(grid[r])):
-      point = (r, c)
-      indexes[str(point)] = current
-      _neighbors[current] = list(filter(valid_point, neighbors(r, c)))
-      current += 1
-  return indexes, _neighbors
+# def compute_mappers(grid): 
+#   indexes = {}; _neighbors = {}; current = 0
+#   for r in range(len(grid)):
+#     for c in range(len(grid[r])):
+#       point = (r, c)
+#       indexes[str(point)] = current
+#       _neighbors[current] = list(filter(valid_point, neighbors(r, c)))
+#       current += 1
+#   return indexes, _neighbors
 
-mapper_indexex, mapper_neighbors = compute_mappers(grid) # { point -> index }, { index -> [ point ] }
-distances = floyd_warshall(mapper_indexex, mapper_neighbors)
+# mapper_indexex, mapper_neighbors = compute_mappers(grid) # { point -> index }, { index -> [ point ] }
+# distances = floyd_warshall(mapper_indexex, mapper_neighbors)
+
+manhattan_distance = lambda p1, p2: abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
 _sum = 0
 seen = set()
-for galaxy1 in _galaxies:
-  g1 = mapper_indexex[str(galaxy1)]
-  for galaxy2 in _galaxies:
-    g2 = mapper_indexex[str(galaxy2)]
-    if galaxy1 == galaxy2: continue
-    if (g1, g2) in seen or (g2, g1) in seen: continue
-    _sum += distances[g1][g2]
-    seen.add((g1, g2))
+for g1 in _galaxies:
+  for g2 in _galaxies:
+    if g1 == g2: continue
+    if str((g1, g2)) in seen or str((g2, g1)) in seen: continue
+    _sum += manhattan_distance(g1, g2)
+    seen.add(str((g1, g2)))
 
 print('Part 1: ', _sum)
