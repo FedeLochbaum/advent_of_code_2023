@@ -25,3 +25,5 @@
 [Day 10: Pipe Maze](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2010:%20Pipe%20Maze/loops.py)
 
 [Day 11: Cosmic Expansion](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2011:%20Cosmic%20Expansion/observatory.py)
+
+[Day 12: Hot Springs](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2012:%20Hot%20Springs/dmaged_springs.py)
