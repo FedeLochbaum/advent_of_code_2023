@@ -29,3 +29,5 @@
 [Day 12: Hot Springs](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2012:%20Hot%20Springs/dmaged_springs.py)
 
 [Day 13: Point of Incidence](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2013:%20Point%20of%20Incidence/summarize.py)
+
+[Day 14: Parabolic Reflector Dish](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2014:%20Parabolic%20Reflector%20Dish/parabolic_reflector.py)
