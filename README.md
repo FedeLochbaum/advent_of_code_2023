@@ -33,3 +33,5 @@
 [Day 14: Parabolic Reflector Dish](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2014:%20Parabolic%20Reflector%20Dish/parabolic_reflector.py)
 
 [Day 15: Lens Library](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2015:%20Lens%20Library/hashing.py)
+
+[Day 16: The Floor Will Be Lava](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2016:%20The%20Floor%20Will%20Be%20Lava/beam.py)
