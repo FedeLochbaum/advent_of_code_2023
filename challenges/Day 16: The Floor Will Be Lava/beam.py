@@ -20,7 +20,7 @@ def show_grid(grid, energized):
 
 def split(grid, r, c, dir): return list(map( lambda n_dir: (r + n_dir[0], c + n_dir[1], n_dir), SPLIT[grid[r][c]][dir]))
 
-def run_until_stop(grid, beams, visited, bound):
+def run_until_stop(grid, beams, visited, bound = 10):
   prev = len(visited)
   beams, visited = move_beams(grid, beams, visited)
   
@@ -58,3 +58,16 @@ grid = grid_from_file(input_path)
 print('Part 1: ', run_until_stop(grid, [(0, 0, DIRS['RIGHT'])], set(), 20))
 
 # Part 2
+global_max = 0
+
+for c in range(len(grid[0])):
+  global_max = max(global_max, run_until_stop(grid, [(0, c, DIRS['DOWN'])], set(), 20)) # TOP TO DOWN
+  global_max = max(global_max, run_until_stop(grid, [(len(grid), c, DIRS['UP'])], set(), 20)) # DOWN TO TOP
+
+print('current best: ', global_max)
+
+for r in range(len(grid)):
+  global_max = max(global_max, run_until_stop(grid, [(r, 0, DIRS['RIGHT'])], set(), 20)) # LEFT TO RIGHT
+  global_max = max(global_max, run_until_stop(grid, [(r, len(grid[0]), DIRS['LEFT'])], set(), 20)) # RIGHT TO LEFT
+
+print('Part 2: ', global_max)
