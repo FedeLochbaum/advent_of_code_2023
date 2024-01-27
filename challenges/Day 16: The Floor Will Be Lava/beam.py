@@ -1,56 +1,60 @@
-input_path = 'challenges/Day 16: The Floor Will Be Lava/input0'
-import copy
+input_path = 'challenges/Day 16: The Floor Will Be Lava/input'
 from utils import grid_from_file, DIRS, SPLIT, MIRRORS
 
 is_valid = lambda r, c, grid: r >= 0 and r < len(grid) and c >= 0 and c < len(grid[0])
-it_must_split = lambda cur, dir: cur in SPLIT and dir in SPLIT[cur]
-new_direction = lambda cur, dir: MIRRORS[cur][dir] if cur in MIRRORS else dir
+it_must_split = lambda elem, dir: elem in SPLIT and dir in SPLIT[elem]
+new_direction = lambda elem, dir: MIRRORS[elem][dir] if elem in MIRRORS else dir
 
-def split(grid, r, c, dir):
-  beams = []
-  if not dir in SPLIT[grid[r][c]]: return []
+def energized_row(r, grid, energized):
+  res = []
+  for c in range(len(grid[r])):
+    res.append('#' if (r, c) in energized else grid[r][c])
+  return res
 
-  for n_dir in SPLIT[grid[r][c]][dir]:
-    n_r, n_c = r + n_dir[0], c + n_dir[1]
-    if is_valid(n_r, n_c, grid): beams.append((n_r, n_c, n_dir))
+def show_grid(grid, energized):
+  print('show_grid')
+  for r in range(len(grid)):
+    print(''.join(energized_row(r, grid, energized)))
+      
+  print('\n')
 
-  return beams
+def split(grid, r, c, dir): return list(map( lambda n_dir: (r + n_dir[0], c + n_dir[1], n_dir), SPLIT[grid[r][c]][dir]))
 
-def run_until_stop(grid, beams, energized):
-  prev = len(energized)
-  beams, energized = iteration(grid, beams, energized)
-  current = len(energized)
-  print('beams: ', beams, ' energized: ', energized, ' prev: ', prev, ' current: ', current)
+def run_until_stop(grid, beams, visited, bound):
+  prev = len(visited)
+  beams, visited = move_beams(grid, beams, visited)
   
-  while(prev != current):
-    beams, energized = iteration(grid, beams, energized)
+  current = len(visited)
+  
+  while(bound > 0):
+    if prev == current: bound-=1
+    beams, visited = move_beams(grid, beams, visited)
+
     prev = current
-    current = len(energized)
+    current = len(visited)
+
   return current
 
-def iteration(grid, beams, old_energized):
-  energized = copy.deepcopy(old_energized)
-  n_beams = []
-  print('beams: ', beams)
+def move_beams(grid, beams, visited):
+  _beams = []
   for beam in beams:
     r, c, dir = beam
-    print('VAMOS POR LA POS: ', r, c, dir)
+
+    if not is_valid(r, c, grid): continue
+
+    visited.add((r, c))
+
+    if it_must_split(grid[r][c], dir): _beams += split(grid, r, c, dir); continue
+
+    dir = new_direction(grid[r][c], dir)
     
-    energized.add((r, c)) # energize cell
-    print('energized: ', energized)
-
     n_r, n_c = r + dir[0], c + dir[1]
-    if not is_valid(n_r, n_c, grid): continue
+    _beams.append([n_r, n_c, dir])
 
-    if grid[n_r][n_c] in MIRRORS or grid[n_r][n_c] in SPLIT: energized.add((n_r, n_c))
-
-    if it_must_split(grid[n_r][n_c], dir): n_beams += split(grid, n_r, n_c, dir); print('n_beams: ', n_beams); continue # split must check if are valid pos
-
-    n_dir = new_direction(grid[n_r][n_c], dir)
-    n_beams.append([n_r, n_c, n_dir])
-
-  return n_beams, energized
+  return _beams, visited
 
 grid = grid_from_file(input_path)
 
-print('Part 1: ', run_until_stop(grid, [(0, 0, DIRS['RIGHT'])], set()))
+print('Part 1: ', run_until_stop(grid, [(0, 0, DIRS['RIGHT'])], set(), 20))
+
+# Part 2
