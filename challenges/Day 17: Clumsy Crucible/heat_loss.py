@@ -4,19 +4,8 @@ import copy
 
 RIGHT = (0, 1); LEFT = (0, -1); DOWN = (1, 0); UP = (-1, 0)
 
-left_dir = {
-    RIGHT: UP,
-    LEFT: DOWN,
-    UP: LEFT,
-    DOWN: RIGHT
-}
-
-right_dir = {
-    RIGHT: DOWN,
-    LEFT: UP,
-    UP: RIGHT,
-    DOWN: LEFT
-}
+left_dir = { RIGHT: UP, LEFT: DOWN, UP: LEFT, DOWN: RIGHT }
+right_dir = { RIGHT: DOWN, LEFT: UP, UP: RIGHT, DOWN: LEFT }
 
 graph = grid_from_file(input_path)
 
@@ -25,37 +14,37 @@ goal = (rows - 1, cols - 1)
 
 move = lambda dir, node: (node[0] + dir[0], node[1] + dir[1])
 
-def turnLeft(dir, node): n_dir = left_dir[dir]; return move(n_dir, node), n_dir
-def turnRight(dir, node): n_dir = right_dir[dir]; return move(n_dir, node), n_dir
+turnLeft = lambda dir, node: [move(left_dir[dir], node), left_dir[dir]]
+turnRight = lambda dir, node: [move(right_dir[dir], node), right_dir[dir]]
 
 is_valid = lambda node: node[0] >= 0 and node[0] < rows and node[1] >= 0 and node[1] < cols
 
+too_big = 100000000000
+
 def find_min(node, dir, tries, memo, seen):
-  if node == goal: return graph[goal[0]][goal[1]]
+  key = (node, tries)
+
+  if node == goal: return 0
+  if not is_valid(node): return too_big
   
   seen.add(node) ## mark node to seen
 
-  if not node in memo:
-    options = [100000000000]
-    
+  if not key in memo:
     next = move(dir, node)
     left, lDir = turnLeft(dir, node)
     right, rDir = turnRight(dir, node)
 
-    seen_copy = copy.deepcopy(seen)
-    
-    if tries > 0 and is_valid(next) and not next in seen: options.append(find_min(next, dir, tries - 1, memo, seen) + graph[next[0]][next[1]])
+    local_min = too_big
 
-    seen = seen_copy
-    if (is_valid(left) and not left in seen): options.append(find_min(left, lDir, 3, memo, seen) + graph[left[0]][left[1]])
+    _seen1 = copy.deepcopy(seen)
+    _seen2 = copy.deepcopy(seen)
 
-    seen = seen_copy
-    if (is_valid(right) and not right in seen): options.append(find_min(right, rDir, 3, memo, seen) + graph[right[0]][right[1]])
+    if not left in seen: local_min = min(local_min, find_min(left, lDir, 3, memo, seen))
+    if tries > 0 and not next in seen: local_min = min(local_min, find_min(next, dir, tries - 1, memo, _seen1))
+    if not right in seen: local_min = min(local_min, find_min(right, rDir, 3, memo, _seen2))
 
-    # if len(options) == 0: return 100000000000
-    memo[node] = min(options)
+    memo[key] = local_min + graph[node[0]][node[1]]
 
-  return memo[node]
+  return memo[key]
 
-_min = min(find_min((0, 0), RIGHT, 3, {}, set()), find_min((0, 0), DOWN, 3, {}, set()))
-print('Part 1:', _min)
+print('Part 1:', find_min((0, 0), RIGHT, 3, {}, set()))
