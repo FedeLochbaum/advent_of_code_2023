@@ -1,8 +1,9 @@
 input_path = 'challenges/Day 17: Clumsy Crucible/input0'
 from utils import grid_from_file
-import copy
+from queue import PriorityQueue
 
 RIGHT = (0, 1); LEFT = (0, -1); DOWN = (1, 0); UP = (-1, 0)
+DIRS = [ RIGHT, LEFT, DOWN, UP ]
 
 left_dir = { RIGHT: UP, LEFT: DOWN, UP: LEFT, DOWN: RIGHT }
 right_dir = { RIGHT: DOWN, LEFT: UP, UP: RIGHT, DOWN: LEFT }
@@ -19,32 +20,40 @@ turnRight = lambda dir, node: [move(right_dir[dir], node), right_dir[dir]]
 
 is_valid = lambda node: node[0] >= 0 and node[0] < rows and node[1] >= 0 and node[1] < cols
 
-too_big = 100000000000
+def next(state, min_chain, max_chain):
+  pos, dir, chain_length = state
+  for delta in DIRS:
+    if dir is not None:
+      if delta == (-dir[0], -dir[1]): continue
+      if delta == dir and chain_length == max_chain: continue
+      if delta not in [(-dir[0], -dir[1]), dir] and chain_length < min_chain: continue
+    new_pos = pos + delta
+    if not (0 <= new_pos[0] < rows and 0 <= new_pos[1] < cols): continue
+    new_dir = delta
+    if new_dir != dir: new_chain_length = 1
+    else: new_chain_length = chain_length + 1
+    yield new_pos, new_dir, new_chain_length
 
-def find_min(node, dir, tries, memo, seen):
-  key = (node, tries)
+h = lambda state: abs(state[0][0] - goal[0]) + abs(state[0][1] - goal[1])
 
-  if node == goal: return 0
-  if not is_valid(node): return too_big
-  
-  seen.add(node) ## mark node to seen
+def a_star(initial_state, goal, min_chain, max_chain):
+  queue = PriorityQueue()
+  dist = { initial_state: 0 }
+  queue.put((dist[initial_state] + h(initial_state), initial_state))
 
-  if not key in memo:
-    next = move(dir, node)
-    left, lDir = turnLeft(dir, node)
-    right, rDir = turnRight(dir, node)
+  while not queue.empty():
+    f_dist, current_state = queue.get()
+    if current_state[0] == goal and current_state[2] >= min_chain: return dist[current_state]
 
-    local_min = too_big
+    if f_dist > dist[current_state] + h(current_state): continue
 
-    _seen1 = copy.deepcopy(seen)
-    _seen2 = copy.deepcopy(seen)
+    for nbr_state in next(current_state, min_chain, max_chain):
+      g_dist = dist[current_state] + graph[nbr_state[0][0]][nbr_state[0][1]]
 
-    if not left in seen: local_min = min(local_min, find_min(left, lDir, 3, memo, seen))
-    if tries > 0 and not next in seen: local_min = min(local_min, find_min(next, dir, tries - 1, memo, _seen1))
-    if not right in seen: local_min = min(local_min, find_min(right, rDir, 3, memo, _seen2))
+      if nbr_state in dist and dist[nbr_state] <= g_dist: continue
+      
+      dist[nbr_state] = g_dist
+      queue.put((dist[nbr_state] + h(nbr_state), nbr_state))
 
-    memo[key] = local_min + graph[node[0]][node[1]]
-
-  return memo[key]
-
-print('Part 1:', find_min((0, 0), RIGHT, 3, {}, set()))
+print('Part 1:', a_star(((0, 0), None, 1), goal, 0, 3))
+print('Part 2:', a_star(((0, 0), None, 1), goal, 4, 10))
