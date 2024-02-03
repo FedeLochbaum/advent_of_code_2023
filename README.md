@@ -37,3 +37,5 @@
 [Day 16: The Floor Will Be Lava](https://github.com/FedeLochbaum/advent_of_code_2023/blob/main/challenges/Day%2016:%20The%20Floor%20Will%20Be%20Lava/beam.py)
 
 [Day 17: Clumsy Crucible](https://github.com/FedeLochbaum/advent_of_code_2023/challenges/Day%2017%3A%20Clumsy%20Crucible/heat_loss.py)
+
+[Day 18: Lavaduct Lagoon](https://github.com/FedeLochbaum/advent_of_code_2023/challenges/Day%2018%3A%20Lavaduct%20Lagoon/digging.py)
